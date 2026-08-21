@@ -3,150 +3,842 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Codys Colours</title>
+  <title>Codys Colours - Free Mac Colour Plugin for Illustrator and Photoshop</title>
+  <meta name="description" content="Codys Colours is a free Mac colour workflow panel for Adobe Illustrator and Photoshop. Search, pick, compare, convert, extract, palette, favourite, and import authorised CSV or JSON colour libraries.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Cody Harker">
+  <link rel="canonical" href="https://thepianoboi-cmyk.github.io/Codys-Colours/">
+  <link rel="icon" href="assets/cc-icon-128.png">
+  <link rel="apple-touch-icon" href="assets/cc-icon-256.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Codys Colours - Free Mac Colour Plugin">
+  <meta property="og:description" content="A free Mac colour workflow panel for Adobe Illustrator and Photoshop with search, pick, convert, extract, palette, favourites, and local CSV/JSON import.">
+  <meta property="og:url" content="https://thepianoboi-cmyk.github.io/Codys-Colours/">
+  <meta property="og:image" content="https://thepianoboi-cmyk.github.io/Codys-Colours/assets/codys-colours-panel-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Codys Colours - Free Mac Colour Plugin">
+  <meta name="twitter:description" content="Free colour workflow panel for Adobe Illustrator and Photoshop on Mac. Import your own authorised colour libraries.">
+  <meta name="twitter:image" content="https://thepianoboi-cmyk.github.io/Codys-Colours/assets/codys-colours-panel-preview.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Codys Colours",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "macOS",
+    "description": "Free Mac colour workflow panel for Adobe Illustrator and Adobe Photoshop. Search, pick, compare, convert, extract, palette, favourite, and import authorised CSV or JSON colour libraries.",
+    "url": "https://thepianoboi-cmyk.github.io/Codys-Colours/",
+    "downloadUrl": "https://github.com/thepianoboi-cmyk/Codys-Colours/releases/latest",
+    "softwareVersion": "1.0.1",
+    "license": "https://github.com/thepianoboi-cmyk/Codys-Colours/blob/main/LICENSE",
+    "author": {
+      "@type": "Person",
+      "name": "Cody Harker"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is Codys Colours free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Codys Colours is free to download and use on Mac for personal, internal, educational, commercial, and client work."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Codys Colours include commercial third-party colour guide data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The public build includes generic starter colours only. Users can import CSV or JSON colour libraries that they are authorised to use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which Adobe apps does Codys Colours support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Codys Colours is a Mac CEP panel for Adobe Illustrator and Adobe Photoshop."
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     :root {
-      --bg: #f7f7f4;
-      --ink: #202224;
-      --muted: #60656c;
-      --accent: #0d7f8c;
-      --line: #d9d9d3;
-      --panel: #fff;
+      --ink: #182023;
+      --muted: #5d666b;
+      --line: #d8ded9;
+      --paper: #f7f7f4;
+      --panel: #ffffff;
+      --teal: #0d7f8c;
+      --teal-dark: #075f68;
+      --coral: #e85f5c;
+      --gold: #d7a83e;
+      --lavender: #9b8fd3;
+      --shadow: 0 24px 60px rgba(24, 32, 35, 0.18);
     }
-    * { box-sizing: border-box; }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
-      background: var(--bg);
+      background: var(--paper);
       color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.5;
     }
-    main {
-      width: min(980px, calc(100% - 32px));
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .siteShell {
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .nav {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      border-bottom: 1px solid rgba(24, 32, 35, 0.1);
+      background: rgba(247, 247, 244, 0.92);
+      backdrop-filter: blur(18px);
+    }
+
+    .navInner,
+    .sectionInner {
+      width: min(1160px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 48px 0;
     }
-    header {
-      display: grid;
-      gap: 20px;
-      padding: 28px 0 34px;
-      border-bottom: 1px solid var(--line);
+
+    .navInner {
+      display: flex;
+      min-height: 68px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
+
     .brand {
+      display: inline-flex;
+      min-width: 0;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      box-shadow: 0 10px 24px rgba(13, 127, 140, 0.2);
+    }
+
+    .brand span {
+      overflow: hidden;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .navLinks {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 8px;
     }
-    .brand img {
-      width: 64px;
-      height: 64px;
-      border-radius: 12px;
+
+    .navLinks a {
+      border-radius: 7px;
+      color: var(--muted);
+      padding: 8px 10px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 650;
     }
-    h1 {
+
+    .navLinks a:hover {
+      background: #eef3ef;
+      color: var(--ink);
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid var(--teal);
+      border-radius: 8px;
+      background: var(--teal);
+      color: #ffffff;
+      padding: 0 18px;
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 14px 32px rgba(13, 127, 140, 0.24);
+      transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+    }
+
+    .button:hover {
+      background: var(--teal-dark);
+      box-shadow: 0 18px 38px rgba(13, 127, 140, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--teal-dark);
+      box-shadow: none;
+    }
+
+    .button.secondary:hover {
+      background: #ffffff;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 760px;
+      display: flex;
+      align-items: flex-end;
+      isolation: isolate;
+      background:
+        linear-gradient(90deg, rgba(247, 247, 244, 0.98) 0%, rgba(247, 247, 244, 0.88) 44%, rgba(247, 247, 244, 0.54) 70%, rgba(247, 247, 244, 0.9) 100%),
+        url("assets/codys-colours-panel-preview.png") center right / min(980px, 92vw) auto no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      z-index: -1;
+      height: 210px;
+      background: linear-gradient(180deg, rgba(247, 247, 244, 0), var(--paper));
+    }
+
+    .heroContent {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 112px 0 118px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(13, 127, 140, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--teal-dark);
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
       margin: 0;
-      font-size: clamp(38px, 8vw, 72px);
-      line-height: 0.95;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-top: 20px;
+      font-size: clamp(48px, 8vw, 92px);
+      line-height: 0.94;
       letter-spacing: 0;
     }
-    p {
-      max-width: 720px;
-      margin: 0;
+
+    .heroLead {
+      max-width: 650px;
+      margin-top: 22px;
+      color: #3f4a4e;
+      font-size: clamp(19px, 2.4vw, 25px);
+      line-height: 1.32;
+    }
+
+    .heroActions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .proofStrip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 850px;
+      margin-top: 36px;
+    }
+
+    .proof {
+      border: 1px solid rgba(24, 32, 35, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.82);
+      padding: 13px;
+    }
+
+    .proof strong {
+      display: block;
+      font-size: 19px;
+      line-height: 1.1;
+    }
+
+    .proof span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    section {
+      padding: 78px 0;
+    }
+
+    .sectionHeader {
+      display: grid;
+      gap: 12px;
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .sectionHeader h2 {
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .sectionHeader p {
       color: var(--muted);
       font-size: 18px;
     }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    a.button {
-      display: inline-flex;
-      min-height: 42px;
-      align-items: center;
-      border: 1px solid var(--accent);
-      border-radius: 7px;
-      background: var(--accent);
-      color: #fff;
-      padding: 0 16px;
-      text-decoration: none;
-      font-weight: 700;
-    }
-    a.secondary {
-      background: transparent;
-      color: var(--accent);
-    }
-    section {
+
+    .featureGrid {
       display: grid;
-      gap: 16px;
-      padding: 28px 0;
-      border-bottom: 1px solid var(--line);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
-    h2 {
-      margin: 0;
-      font-size: 24px;
-      letter-spacing: 0;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-    }
-    .card {
+
+    .feature,
+    .step,
+    .licencePanel,
+    .downloadPanel,
+    .faqItem {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
+      box-shadow: 0 12px 36px rgba(24, 32, 35, 0.05);
+    }
+
+    .feature {
+      min-height: 190px;
+      padding: 20px;
+    }
+
+    .featureMark {
+      width: 44px;
+      height: 44px;
+      border-radius: 7px;
+      margin-bottom: 20px;
+      background: var(--teal);
+    }
+
+    .feature:nth-child(2) .featureMark {
+      background: var(--coral);
+    }
+
+    .feature:nth-child(3) .featureMark {
+      background: var(--gold);
+    }
+
+    .feature:nth-child(4) .featureMark {
+      background: var(--lavender);
+    }
+
+    .feature:nth-child(5) .featureMark {
+      background: #202224;
+    }
+
+    .feature:nth-child(6) .featureMark {
+      background: linear-gradient(135deg, var(--teal), var(--gold), var(--coral));
+    }
+
+    .feature h3,
+    .step h3,
+    .faqItem h3 {
+      font-size: 20px;
+      line-height: 1.18;
+    }
+
+    .feature p,
+    .step p,
+    .faqItem p,
+    .licencePanel p,
+    .downloadPanel p {
+      margin-top: 9px;
+      color: var(--muted);
+    }
+
+    .showcase {
+      background: #182023;
+      color: #ffffff;
+    }
+
+    .showcase .sectionHeader p {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .showcaseGrid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.14fr) minmax(280px, 0.86fr);
+      gap: 22px;
+      align-items: center;
+    }
+
+    .screenshotWrap {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: #f7f7f4;
+      box-shadow: var(--shadow);
+    }
+
+    .screenshotWrap img {
+      width: 100%;
+    }
+
+    .benefitList {
+      display: grid;
+      gap: 10px;
+    }
+
+    .benefit {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
       padding: 16px;
     }
-    .card strong {
+
+    .benefit strong {
       display: block;
-      margin-bottom: 6px;
+      font-size: 17px;
     }
-    code {
-      border-radius: 5px;
-      background: #ecece8;
-      padding: 2px 5px;
+
+    .benefit span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .stepsGrid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .step {
+      padding: 22px;
+    }
+
+    .stepNumber {
+      display: inline-flex;
+      width: 36px;
+      height: 36px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--teal);
+      color: #ffffff;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .downloadPanel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 24px;
+      background: linear-gradient(135deg, #ffffff, #eef6f4);
+    }
+
+    .downloadPanel h2 {
+      font-size: clamp(30px, 4vw, 50px);
+      line-height: 1;
+    }
+
+    .downloadActions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .licencePanel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.65fr);
+      gap: 20px;
+      align-items: start;
+      padding: 24px;
+    }
+
+    .licenceList {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .licenceList li {
+      border-radius: 7px;
+      background: #eef3ef;
+      padding: 10px 12px;
+      color: #334044;
+      font-weight: 650;
+    }
+
+    .faqGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .faqItem {
+      padding: 20px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--line);
+      padding: 34px 0;
+      color: var(--muted);
+    }
+
+    .footerInner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .footerLinks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer a {
+      color: var(--teal-dark);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 880px) {
+      .navInner {
+        flex-wrap: wrap;
+        padding: 10px 0;
+      }
+
+      .navLinks {
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 4px;
+      }
+
+      .navLinks a {
+        overflow: hidden;
+        padding: 7px 4px;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .hero {
+        min-height: 820px;
+        align-items: flex-start;
+        background:
+          linear-gradient(180deg, rgba(247, 247, 244, 0.98) 0%, rgba(247, 247, 244, 0.94) 52%, rgba(247, 247, 244, 0.72) 100%),
+          url("assets/codys-colours-panel-preview.png") center bottom 30px / min(720px, 110vw) auto no-repeat;
+      }
+
+      .heroContent {
+        padding-top: 56px;
+      }
+
+      .proofStrip,
+      .featureGrid,
+      .showcaseGrid,
+      .stepsGrid,
+      .faqGrid,
+      .licencePanel,
+      .downloadPanel {
+        grid-template-columns: 1fr;
+      }
+
+      .downloadActions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .navInner,
+      .sectionInner,
+      .heroContent {
+        width: min(100% - 24px, 1160px);
+      }
+
+      .hero {
+        min-height: 790px;
+      }
+
+      h1 {
+        font-size: clamp(42px, 14vw, 64px);
+      }
+
+      .heroLead {
+        font-size: 18px;
+      }
+
+      .proofStrip {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      section {
+        padding: 58px 0;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .footerInner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <header>
-      <div class="brand">
-        <img src="../extension/images/cc-icon-128.png" alt="">
-        <h1>Codys Colours</h1>
+  <div class="siteShell">
+    <nav class="nav" aria-label="Main navigation">
+      <div class="navInner">
+        <a class="brand" href="#top" aria-label="Codys Colours home">
+          <img src="assets/cc-icon-128.png" alt="">
+          <span>Codys Colours</span>
+        </a>
+        <div class="navLinks">
+          <a href="#features">Features</a>
+          <a href="#preview">Preview</a>
+          <a href="#install">Install</a>
+          <a href="#licence">Licence</a>
+          <a href="https://github.com/thepianoboi-cmyk/Codys-Colours/releases/latest">Download</a>
+        </div>
       </div>
-      <p>A free Mac colour workflow panel for Adobe Illustrator and Adobe Photoshop. Search, compare, convert, extract, favourite, and apply colours from libraries you import locally.</p>
-      <div class="actions">
-        <a class="button" href="https://github.com/thepianoboi-cmyk/Codys-Colours/releases/latest">Download Latest</a>
-        <a class="button secondary" href="https://github.com/thepianoboi-cmyk/Codys-Colours">View Source</a>
+    </nav>
+
+    <header id="top" class="hero">
+      <div class="heroContent">
+        <span class="eyebrow">Free Mac plugin for Illustrator and Photoshop</span>
+        <h1>Codys Colours makes colour work faster.</h1>
+        <p class="heroLead">A clean, free Adobe panel for searching, picking, converting, extracting, comparing, favouriting, and applying colours from libraries you import locally.</p>
+        <div class="heroActions">
+          <a class="button" href="https://github.com/thepianoboi-cmyk/Codys-Colours/releases/download/v1.0.1/Codys-Colours-Mac-v1.0.1.zip">Download Free for Mac</a>
+          <a class="button secondary" href="https://github.com/thepianoboi-cmyk/Codys-Colours">View on GitHub</a>
+        </div>
+        <div class="proofStrip" aria-label="Codys Colours highlights">
+          <div class="proof"><strong>$0</strong><span>Free download and free use</span></div>
+          <div class="proof"><strong>2 apps</strong><span>Illustrator and Photoshop</span></div>
+          <div class="proof"><strong>Local</strong><span>CSV and JSON imports stay on your Mac</span></div>
+          <div class="proof"><strong>Fast</strong><span>Search, pick, compare, and apply</span></div>
+        </div>
       </div>
     </header>
 
-    <section>
-      <h2>Install</h2>
-      <div class="grid">
-        <div class="card"><strong>1. Download</strong>Get the latest Mac release ZIP from GitHub Releases.</div>
-        <div class="card"><strong>2. Run Installer</strong>Double-click <code>Install Codys Colours.command</code>. If macOS blocks it, right-click and choose Open.</div>
-        <div class="card"><strong>3. Open Panel</strong>Restart Adobe, then use <code>Window > Extensions (Legacy) > Codys Colours</code>.</div>
+    <main>
+      <section id="features">
+        <div class="sectionInner">
+          <div class="sectionHeader">
+            <h2>Built for real colour workflow.</h2>
+            <p>Codys Colours is not a bloated account app. It is a focused panel that sits inside Adobe and helps you get to the colour you need with fewer clicks.</p>
+          </div>
+          <div class="featureGrid">
+            <article class="feature">
+              <div class="featureMark"></div>
+              <h3>Search and compare</h3>
+              <p>Find colours by name, code, suffix, or hex, then compare RGB, CMYK, Lab, source, and closest library matches.</p>
+            </article>
+            <article class="feature">
+              <div class="featureMark"></div>
+              <h3>Pick from artwork</h3>
+              <p>Use selected artwork or the picker flow to bring colours from your document into the panel and match them against your library.</p>
+            </article>
+            <article class="feature">
+              <div class="featureMark"></div>
+              <h3>Convert values</h3>
+              <p>Convert Hex, RGB, CMYK, and Lab inputs into closest library matches for practical production notes and design work.</p>
+            </article>
+            <article class="feature">
+              <div class="featureMark"></div>
+              <h3>Extract palettes</h3>
+              <p>Pull colours from images or selected artwork, save palettes, export palette visuals, and keep a local favourite list.</p>
+            </article>
+            <article class="feature">
+              <div class="featureMark"></div>
+              <h3>Apply to Adobe</h3>
+              <p>Add swatches, apply the selected colour, or place a colour square in Illustrator directly from the panel.</p>
+            </article>
+            <article class="feature">
+              <div class="featureMark"></div>
+              <h3>Bring your own data</h3>
+              <p>Import CSV or JSON libraries that you are authorised to use. The public build includes starter colours only.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="preview" class="showcase">
+        <div class="sectionInner">
+          <div class="sectionHeader">
+            <h2>Clean enough to stay open all day.</h2>
+            <p>The interface is built for compact Adobe side panels, with tabs, favourites, palette tools, colour stats, and scalable layouts.</p>
+          </div>
+          <div class="showcaseGrid">
+            <div class="screenshotWrap">
+              <img src="assets/codys-colours-panel-preview.png" alt="Codys Colours Adobe panel showing search, selected colour comparison, conversion, and palette controls">
+            </div>
+            <div class="benefitList">
+              <div class="benefit"><strong>No account wall</strong><span>Download it, install it, and use it. The public build is free.</span></div>
+              <div class="benefit"><strong>No bundled protected guide data</strong><span>Import authorised libraries locally instead of relying on scraped or redistributed datasets.</span></div>
+              <div class="benefit"><strong>Commercial work friendly</strong><span>Use it for client work and production notes, while keeping Codys Colours credited where required.</span></div>
+              <div class="benefit"><strong>Made for Mac Adobe users</strong><span>Designed for Illustrator and Photoshop CEP extension workflows on macOS.</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="install">
+        <div class="sectionInner">
+          <div class="sectionHeader">
+            <h2>Install in minutes.</h2>
+            <p>The release ZIP includes the installer command, the signed ZXP, setup notes, licence, privacy note, and source files.</p>
+          </div>
+          <div class="stepsGrid">
+            <article class="step">
+              <span class="stepNumber">1</span>
+              <h3>Download the Mac ZIP</h3>
+              <p>Grab the latest release from GitHub. The main download is free and packaged for macOS.</p>
+            </article>
+            <article class="step">
+              <span class="stepNumber">2</span>
+              <h3>Run the installer</h3>
+              <p>Unzip it, double-click <strong>Install Codys Colours.command</strong>, then restart Illustrator or Photoshop.</p>
+            </article>
+            <article class="step">
+              <span class="stepNumber">3</span>
+              <h3>Open the panel</h3>
+              <p>Use <strong>Window &gt; Extensions (Legacy) &gt; Codys Colours</strong>, then import your authorised CSV or JSON libraries.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="download">
+        <div class="sectionInner">
+          <div class="downloadPanel">
+            <div>
+              <h2>Free download. Real Adobe colour workflow.</h2>
+              <p>Use it for personal work, school work, internal company work, and client projects. The public version costs $0.</p>
+            </div>
+            <div class="downloadActions">
+              <a class="button" href="https://github.com/thepianoboi-cmyk/Codys-Colours/releases/download/v1.0.1/Codys-Colours-Mac-v1.0.1.zip">Download ZIP</a>
+              <a class="button secondary" href="https://github.com/thepianoboi-cmyk/Codys-Colours/releases/tag/v1.0.1">Release notes</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="licence">
+        <div class="sectionInner">
+          <div class="licencePanel">
+            <div>
+              <h2>Free to use, protected from copycats.</h2>
+              <p>Codys Colours uses the Codys Colours Free Use and Attribution License. You can use the plugin and outputs for free, including commercial design work, but nobody can sell, repackage, rename, white-label, mirror, or redistribute it as their own product without written permission.</p>
+            </div>
+            <ul class="licenceList">
+              <li>Free personal and commercial use</li>
+              <li>Visible commercial/public credit required</li>
+              <li>No resale or standalone redistribution</li>
+              <li>No rebrand, rename, or white-label copies</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="sectionInner">
+          <div class="sectionHeader">
+            <h2>Questions people actually ask.</h2>
+            <p>Short version: yes, it is free. No, it does not ship protected commercial colour-guide databases. Yes, you can import your own authorised libraries.</p>
+          </div>
+          <div class="faqGrid">
+            <article class="faqItem">
+              <h3>Is Codys Colours free?</h3>
+              <p>Yes. It is free to download and use for personal, school, internal, commercial, and client work.</p>
+            </article>
+            <article class="faqItem">
+              <h3>Can I use it for commercial design work?</h3>
+              <p>Yes. Commercial public use must keep visible credit to Codys Colours by Cody Harker.</p>
+            </article>
+            <article class="faqItem">
+              <h3>Does it include third-party guide data?</h3>
+              <p>No. The public build includes generic starter colours only. Import CSV or JSON libraries that you are authorised to use.</p>
+            </article>
+            <article class="faqItem">
+              <h3>What can I import?</h3>
+              <p>CSV or JSON libraries with fields such as Name, Hex, RGB, CMYK, Lab, Source, Suffix, and Alias.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="sectionInner footerInner">
+        <p>Codys Colours by Cody Harker. Free Mac colour workflow panel for Adobe Illustrator and Photoshop.</p>
+        <div class="footerLinks">
+          <a href="https://github.com/thepianoboi-cmyk/Codys-Colours">GitHub</a>
+          <a href="https://github.com/thepianoboi-cmyk/Codys-Colours/releases/latest">Download</a>
+          <a href="https://github.com/thepianoboi-cmyk/Codys-Colours/blob/main/LICENSE">Licence</a>
+          <a href="https://github.com/thepianoboi-cmyk/Codys-Colours/blob/main/PRIVACY.md">Privacy</a>
+        </div>
       </div>
-    </section>
-
-    <section>
-      <h2>Import Your Colours</h2>
-      <p>The public build includes only generic starter colours. Use the panel's Import button to load CSV or JSON libraries that you are authorised to use.</p>
-      <p>Recommended CSV columns: <code>Name, Hex, R, G, B, C, M, Y, K, Lab, Source, Suffix, Alias</code>.</p>
-    </section>
-
-    <section>
-      <h2>Licence</h2>
-      <p>Codys Colours is free to use, including for commercial design work. You cannot sell, repackage, rename, white-label, mirror, or redistribute Codys Colours as your own product. Commercial public use must keep visible credit to Codys Colours by Cody Harker.</p>
-    </section>
-
-    <section>
-      <h2>Privacy</h2>
-      <p>Imported libraries, favourites, palettes, recents, and pattern history stay locally in the panel's browser storage.</p>
-    </section>
-  </main>
+    </footer>
+  </div>
 </body>
 </html>

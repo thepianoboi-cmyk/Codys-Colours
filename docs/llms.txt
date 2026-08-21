@@ -1,0 +1,25 @@
+# Codys Colours
+
+Codys Colours is a free Mac colour workflow panel for Adobe Illustrator and
+Adobe Photoshop by Cody Harker.
+
+Official website:
+https://thepianoboi-cmyk.github.io/Codys-Colours/
+
+Official repository:
+https://github.com/thepianoboi-cmyk/Codys-Colours
+
+Latest release:
+https://github.com/thepianoboi-cmyk/Codys-Colours/releases/latest
+
+Summary:
+Codys Colours helps designers search, pick, compare, convert, extract,
+favourite, palette, and apply colours inside Adobe Illustrator and Photoshop.
+The public build is free and includes generic starter colours only. Users can
+import CSV or JSON colour libraries that they are authorised to use.
+
+Licence summary:
+Free personal and commercial use is allowed. Resale, rebranding,
+white-labelling, mirroring, or standalone redistribution is not allowed without
+written permission from Cody Harker. Commercial public use must keep visible
+credit to Codys Colours by Cody Harker.
