@@ -1,0 +1,286 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Codys Colours</title>
+  <link rel="icon" href="images/cc-icon-128.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main id="app" class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brandIcon" src="images/cc-icon-dark.png" alt="">
+        <span class="visuallyHidden">Codys Colours</span>
+        <p id="sourceSummary">Loading local colour library...</p>
+      </div>
+      <div id="scaleTabs" class="scaleTabs" aria-label="Panel size">
+        <button class="active" data-scale="auto" data-tip="Automatic panel sizing.">Auto</button>
+        <button data-scale="compact" data-tip="Compact scrolling panel.">Compact</button>
+        <button data-scale="mini" data-tip="Mini scrolling panel.">Mini</button>
+      </div>
+      <div class="topActions">
+        <button id="activateEyedropper" class="iconButton" data-tip="Pick starts Illustrator's Eyedropper on a small sampler square. Click colours in your document; the panel updates until you press Cancel Pick.">Pick</button>
+        <button id="checkCurrent" class="iconButton" data-tip="Find Selection reads the selected Illustrator artwork colour, or Photoshop foreground colour, and shows the closest match.">Find Selection</button>
+        <button id="customizeToggle" data-tip="Customize Main: add/remove cards and move them around.">Customize</button>
+      </div>
+    </header>
+
+    <nav id="primaryTabs" class="primaryTabs" aria-label="Codys Colours sections">
+      <button class="active" data-view="main" data-tip="Your customizable main workspace.">Main</button>
+      <button data-view="convert" data-tip="Convert, extract, and build palettes.">Convert</button>
+      <button data-view="palette" data-tip="View, export, and send your saved palette.">Palette</button>
+      <button data-view="favourites" data-tip="Saved favourite colours and recently used colours.">Favourites</button>
+      <button data-view="patterns" data-tip="Pattern history and document pattern scan tools.">Patterns</button>
+    </nav>
+
+    <section class="searchArea">
+      <input id="searchInput" type="search" placeholder="Search name, code, or #E31B23" autofocus>
+      <select id="guideFilter" data-tip="Filter the search results by colour guide suffix.">
+        <option value="all">All Libraries</option>
+        <option value="C">C suffix</option>
+        <option value="U">U suffix</option>
+        <option value="CP">CP suffix</option>
+        <option value="UP">UP suffix</option>
+        <option value="XGC">XGC suffix</option>
+        <option value="TCX">TCX suffix</option>
+        <option value="TPG">TPG suffix</option>
+        <option value="TSX">TSX suffix</option>
+        <option value="TPM">TPM suffix</option>
+        <option value="TN">TN suffix</option>
+        <option value="SP">SP suffix</option>
+        <option value="M">M suffix</option>
+        <option value="PC">PC suffix</option>
+        <option value="EC">EC suffix</option>
+        <option value="CMYK">CMYK suffix</option>
+      </select>
+      <div class="libraryActions">
+        <label class="fileButton" for="libraryFile" data-tip="Import your own authorised CSV or JSON colour library.">Import</label>
+        <button id="clearImported" data-tip="Remove locally imported colour libraries from this panel.">Clear</button>
+      </div>
+      <input id="libraryFile" class="hiddenFile" type="file" accept=".csv,.json,text/csv,application/json">
+      <div class="matchTabs">
+        <button id="tabAll" class="active" data-mode="all" data-tip="Show all matching colours.">All</button>
+        <button id="tabExact" data-mode="exact" data-tip="Only show exact code/name matches.">Exact</button>
+        <button id="tabClose" data-mode="close" data-tip="Show close-number matches for nearby colour codes.">Close</button>
+      </div>
+    </section>
+
+    <section id="notice" class="notice"></section>
+
+    <section id="viewMain" class="tabView active">
+      <div id="customizePanel" class="customizePanel" aria-label="Main tab customizer">
+        <select id="customAddSelect" data-tip="Choose a section to add back to Main."></select>
+        <button id="customAddButton" data-tip="Add the selected section to Main.">Add</button>
+        <select id="customRemoveSelect" data-tip="Choose a section to remove from Main."></select>
+        <button id="customRemoveButton" data-tip="Remove the selected section from Main.">Remove</button>
+        <button id="customResetButton" data-tip="Restore Main to the default dashboard.">Reset</button>
+      </div>
+      <div id="mainCanvas" class="cardGrid mainGrid"></div>
+    </section>
+    <section id="viewConvert" class="tabView">
+      <div id="convertCanvas" class="cardGrid convertGrid"></div>
+    </section>
+    <section id="viewPalette" class="tabView">
+      <div id="paletteCanvas" class="cardGrid paletteGrid"></div>
+    </section>
+    <section id="viewFavourites" class="tabView">
+      <div id="favouritesCanvas" class="cardGrid favouritesGrid"></div>
+    </section>
+    <section id="viewPatterns" class="tabView">
+      <div id="patternsCanvas" class="cardGrid patternsGrid"></div>
+    </section>
+
+    <section id="cardSearch" class="toolCard cardSearch" data-card="search">
+      <div class="cardHeader">
+        <h3>Search</h3>
+        <div class="customControls">
+          <button data-custom="pin" data-tip="Remove this section from Main.">Remove</button>
+          <button data-custom="up" data-tip="Move this card earlier on Main.">Up</button>
+          <button data-custom="down" data-tip="Move this card later on Main.">Down</button>
+        </div>
+      </div>
+      <div id="resultsInfo" class="resultsInfo">Closest matches appear first.</div>
+      <div id="results" class="results" aria-live="polite"></div>
+    </section>
+
+    <aside id="cardDetail" class="toolCard detail" data-card="detail">
+      <div class="cardHeader">
+        <h3>Selected Colour</h3>
+        <div class="customControls">
+          <button data-custom="pin" data-tip="Remove this section from Main.">Remove</button>
+          <button data-custom="up" data-tip="Move this card earlier on Main.">Up</button>
+          <button data-custom="down" data-tip="Move this card later on Main.">Down</button>
+        </div>
+      </div>
+      <div id="chip" class="largeChip"></div>
+      <div id="comparePanel" class="comparePanel">
+        <div class="compareTile">
+          <span>Selected Colour</span>
+          <i id="sampleChip"></i>
+          <strong id="sampleLabel">No sample</strong>
+          <em id="sampleHex">Pick, Find, Extract, or search a hex colour.</em>
+          <dl class="compareStats">
+            <div><dt>RGB</dt><dd id="sampleStatRgb">-</dd></div>
+            <div><dt>CMYK</dt><dd id="sampleStatCmyk">-</dd></div>
+            <div><dt>Lab</dt><dd id="sampleStatLab">-</dd></div>
+            <div><dt>Source</dt><dd id="sampleStatSource">-</dd></div>
+          </dl>
+        </div>
+        <div class="compareTile">
+          <span>Closest Library Colour</span>
+          <i id="matchChip"></i>
+          <strong id="matchLabel">No match selected</strong>
+          <em id="matchDelta">Closest library colours will appear in Search.</em>
+          <dl class="compareStats">
+            <div><dt>RGB</dt><dd id="matchStatRgb">-</dd></div>
+            <div><dt>CMYK</dt><dd id="matchStatCmyk">-</dd></div>
+            <div><dt>Lab</dt><dd id="matchStatLab">-</dd></div>
+            <div><dt>Source</dt><dd id="matchStatSource">-</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="toggleFavourite" class="starButton" data-tip="Favourite or unfavourite the selected colour.">☆ Favourite</button>
+        <button id="addToPalette" data-tip="Add the selected colour to the active palette.">Add to Palette</button>
+        <button id="applyColour" data-tip="Apply the selected colour to Illustrator selection, or set Photoshop foreground colour.">Apply / Set</button>
+        <button id="addSwatch" data-tip="Add the selected colour as an Adobe swatch.">Add Swatch</button>
+        <button id="addSquare" data-tip="Place a colour square in the centre of the current Illustrator view.">Add Colour Square</button>
+        <button id="addShown" data-tip="Add the visible search results to Adobe swatches.">Add Shown</button>
+      </div>
+      <h2 id="detailName">Search a colour</h2>
+      <p id="detailMeta">Exact code matches appear first, then close numbers and text matches.</p>
+      <dl>
+        <div><dt>Hex</dt><dd id="detailHex">-</dd></div>
+        <div><dt>CMYK</dt><dd id="detailCmyk">-</dd></div>
+        <div><dt>Lab</dt><dd id="detailLab">-</dd></div>
+        <div><dt>Source</dt><dd id="detailSource">-</dd></div>
+      </dl>
+      <div class="detailMatches">
+        <div class="detailMatchesHeader">
+          <h3>Exact & Suggested Colours</h3>
+          <span id="detailResultsCount" class="miniMeta">0 colours</span>
+        </div>
+        <div id="detailResultsInfo" class="resultsInfo">Closest matches appear first.</div>
+        <div id="detailResults" class="results detailResults" aria-live="polite"></div>
+      </div>
+    </aside>
+
+    <section id="cardPalette" class="toolCard palettePanel" data-card="palette">
+      <div class="cardHeader">
+        <h3>Palette</h3>
+        <span id="paletteCount" class="miniMeta">0 colours</span>
+        <div class="customControls">
+          <button data-custom="pin" data-tip="Remove this section from Main.">Remove</button>
+          <button data-custom="up" data-tip="Move this card earlier on Main.">Up</button>
+          <button data-custom="down" data-tip="Move this card later on Main.">Down</button>
+        </div>
+      </div>
+      <input id="paletteName" type="text" placeholder="Palette name">
+      <div id="paletteStrip" class="paletteStrip"></div>
+      <div id="paletteList" class="paletteList"></div>
+      <div id="accessibilityPreview" class="accessibilityPreview"></div>
+      <div class="compactButtons">
+        <button id="addPaletteSwatches" data-tip="Add all palette colours to Adobe swatches.">Swatches</button>
+        <button id="copyPalette" data-tip="Copy palette colour data as tab-separated text.">Copy</button>
+        <button id="exportPalette" data-tip="Export the current palette as a PNG card.">PNG</button>
+        <button id="clearPalette" data-tip="Clear the current palette.">Clear</button>
+      </div>
+    </section>
+
+    <section id="cardConvert" class="toolCard" data-card="convert">
+      <div class="cardHeader">
+        <h3>Convert</h3>
+        <button id="convertFromDesign" class="plainButton" data-tip="Read the selected/current design colour and find the closest library match.">From Design</button>
+        <div class="customControls">
+          <button data-custom="pin" data-tip="Remove this section from Main.">Remove</button>
+          <button data-custom="up" data-tip="Move this card earlier on Main.">Up</button>
+          <button data-custom="down" data-tip="Move this card later on Main.">Down</button>
+        </div>
+      </div>
+      <div class="convertControls">
+        <select id="convertMode" data-tip="Choose the input colour format.">
+          <option value="hex">Hex</option>
+          <option value="rgb">RGB</option>
+          <option value="cmyk">CMYK</option>
+          <option value="lab">L*a*b</option>
+        </select>
+        <input id="convertInput" type="text" placeholder="#E31B23">
+        <button id="convertButton" data-tip="Find the closest library colours for this value.">Convert</button>
+      </div>
+      <div id="convertResults" class="matchList"></div>
+    </section>
+
+    <section id="cardExtract" class="toolCard extractPanel" data-card="extract">
+      <div class="cardHeader">
+        <h3>Extract</h3>
+        <div class="compactButtons inline">
+          <label class="fileButton" for="extractFile" data-tip="Load an image, extract dominant colours, then click the preview to sample exact pixels.">Image</label>
+          <button id="extractSelection" data-tip="Extract solid fill/stroke colours from selected Illustrator artwork, or Photoshop foreground colour.">Selected</button>
+        </div>
+        <div class="customControls">
+          <button data-custom="pin" data-tip="Remove this section from Main.">Remove</button>
+          <button data-custom="up" data-tip="Move this card earlier on Main.">Up</button>
+          <button data-custom="down" data-tip="Move this card later on Main.">Down</button>
+        </div>
+      </div>
+      <input id="extractFile" class="hiddenFile" type="file" accept="image/*">
+      <canvas id="extractCanvas" class="extractCanvas" width="1" height="1"></canvas>
+      <div id="extractResults" class="extractResults"></div>
+    </section>
+
+    <section id="cardFavourites" class="toolCard" data-card="favourites">
+      <div class="cardHeader">
+        <h3>Favourites</h3>
+        <div class="customControls">
+          <button data-custom="pin" data-tip="Remove this section from Main.">Remove</button>
+          <button data-custom="up" data-tip="Move this card earlier on Main.">Up</button>
+          <button data-custom="down" data-tip="Move this card later on Main.">Down</button>
+        </div>
+      </div>
+      <div class="stackedLists">
+        <div>
+          <h3>Favourite Colours</h3>
+          <div id="favoriteList" class="miniList"></div>
+        </div>
+        <div>
+          <h3>Recently Used</h3>
+          <div id="recentList" class="miniList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cardPatterns" class="toolCard" data-card="patterns">
+      <div class="cardHeader">
+        <h3>Patterns</h3>
+        <div class="patternControls">
+          <select id="patternSort" data-tip="Sort saved pattern and colour history.">
+            <option value="recent">Recent</option>
+            <option value="count">Most Used</option>
+            <option value="name">Name</option>
+            <option value="suffix">Suffix</option>
+            <option value="hue">Hue</option>
+          </select>
+          <button id="scanPatterns" data-tip="Scan document pattern swatches from Illustrator.">Scan</button>
+          <button id="copyPatterns" data-tip="Copy pattern history as tab-separated text.">Copy</button>
+        </div>
+        <div class="customControls">
+          <button data-custom="pin" data-tip="Remove this section from Main.">Remove</button>
+          <button data-custom="up" data-tip="Move this card earlier on Main.">Up</button>
+          <button data-custom="down" data-tip="Move this card later on Main.">Down</button>
+        </div>
+      </div>
+      <div id="patternList" class="patternList"></div>
+    </section>
+
+    <div id="cardStore" class="cardStore" aria-hidden="true"></div>
+
+    <footer class="statusBar">
+      <span id="status">Ready.</span>
+    </footer>
+    <div id="hoverTip" class="hoverTip" role="tooltip"></div>
+  </main>
+  <script src="js/main.js"></script>
+</body>
+</html>

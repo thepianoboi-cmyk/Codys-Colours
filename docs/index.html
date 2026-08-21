@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codys Colours</title>
+  <style>
+    :root {
+      --bg: #f7f7f4;
+      --ink: #202224;
+      --muted: #60656c;
+      --accent: #0d7f8c;
+      --line: #d9d9d3;
+      --panel: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 48px 0;
+    }
+    header {
+      display: grid;
+      gap: 20px;
+      padding: 28px 0 34px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .brand img {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 8vw, 72px);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+    p {
+      max-width: 720px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    a.button {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      border: 1px solid var(--accent);
+      border-radius: 7px;
+      background: var(--accent);
+      color: #fff;
+      padding: 0 16px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    a.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+    section {
+      display: grid;
+      gap: 16px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 16px;
+    }
+    .card strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+    code {
+      border-radius: 5px;
+      background: #ecece8;
+      padding: 2px 5px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand">
+        <img src="../extension/images/cc-icon-128.png" alt="">
+        <h1>Codys Colours</h1>
+      </div>
+      <p>A free Mac colour workflow panel for Adobe Illustrator and Adobe Photoshop. Search, compare, convert, extract, favourite, and apply colours from libraries you import locally.</p>
+      <div class="actions">
+        <a class="button" href="https://github.com/thepianoboi-cmyk/Codys-Colours/releases/latest">Download Latest</a>
+        <a class="button secondary" href="https://github.com/thepianoboi-cmyk/Codys-Colours">View Source</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Install</h2>
+      <div class="grid">
+        <div class="card"><strong>1. Download</strong>Get the latest Mac release ZIP from GitHub Releases.</div>
+        <div class="card"><strong>2. Run Installer</strong>Double-click <code>Install Codys Colours.command</code>. If macOS blocks it, right-click and choose Open.</div>
+        <div class="card"><strong>3. Open Panel</strong>Restart Adobe, then use <code>Window > Extensions (Legacy) > Codys Colours</code>.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Import Your Colours</h2>
+      <p>The public build includes only generic starter colours. Use the panel's Import button to load CSV or JSON libraries that you are authorised to use.</p>
+      <p>Recommended CSV columns: <code>Name, Hex, R, G, B, C, M, Y, K, Lab, Source, Suffix, Alias</code>.</p>
+    </section>
+
+    <section>
+      <h2>Licence</h2>
+      <p>Codys Colours is free to use, including for commercial design work. You cannot sell, repackage, rename, white-label, mirror, or redistribute Codys Colours as your own product. Commercial public use must keep visible credit to Codys Colours by Cody Harker.</p>
+    </section>
+
+    <section>
+      <h2>Privacy</h2>
+      <p>Imported libraries, favourites, palettes, recents, and pattern history stay locally in the panel's browser storage.</p>
+    </section>
+  </main>
+</body>
+</html>
